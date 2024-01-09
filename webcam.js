@@ -19,6 +19,8 @@ let left_ankle
 
 let knee_angle
 
+let knee_hip_pos
+
 
 async function init() {
   detectorConfig = { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER };
@@ -267,6 +269,8 @@ left_hip = poses[0].keypoints[11];
 left_knee = poses[0].keypoints[13];
 left_ankle = poses[0].keypoints[15];
 
+// console.log(`腰の位置${JSON.stringify(left_hip.y)}`)
+// console.log(`膝の位置${JSON.stringify(left_knee.y)}`)
 
 angle = (
   Math.atan2(
@@ -285,7 +289,7 @@ if (angle < 0) {
 if (left_hip.score > 0.3 && left_knee.score > 0.3 && left_ankle.score > 0.3) {
   //console.log(angle);
   knee_angle = angle;
-  console.log(knee_angle)
+  // console.log(knee_angle)
 }
 else {
   //console.log('Cannot see elbow');
@@ -330,8 +334,8 @@ else {
 
 // スクワットアップポジション
 function inUpPosition_skwat() {
-  if (abs(knee_angle) > 170 && abs(knee_angle) < 200) {
-    console.log('In up position')
+  if (abs(knee_angle) > 150 && abs(knee_angle) < 200) {
+    // console.log('In up position')
     if (downPosition == true) {
       var msg = new SpeechSynthesisUtterance(str(reps+1));
       window.speechSynthesis.speak(msg);
@@ -345,10 +349,11 @@ function inUpPosition_skwat() {
 // スクワットダウンポジション
 function inDownPosition() {
   var elbowAboveNose = false;
-  if (((abs(knee_angle) > 60) && (abs(knee_angle) < 100))) {
-    console.log('In down position')
+  if (((abs(knee_angle) > 45) && (abs(knee_angle) < 80))) {
+    // console.log('In down position')
     if (upPosition == true) {
       var msg = new SpeechSynthesisUtterance('Up');
+      // console.log(`膝の角度　${JSON.stringify(abs(knee_angle))}`)
       window.speechSynthesis.speak(msg);
     }
     downPosition = true;
