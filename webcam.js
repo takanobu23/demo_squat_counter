@@ -12,6 +12,9 @@ let downPosition = false;
 let highlightBack = false;
 let backWarningGiven = false;
 
+let kneeLine = null;
+let hipPassedKneeLine = false;
+
 //スクワット用変数
 let left_hip
 let left_knee
@@ -39,6 +42,7 @@ async function init() {
     '12,14': 'c',
     '14,16': 'c'
   };
+
   await getPoses();
 }
 
@@ -53,14 +57,59 @@ async function setup() {
   video = createCapture(VIDEO, videoReady);
   //video.size(960, 720);
   video.hide()
-
   await init();
 }
 
 async function getPoses() {
   poses = await detector.estimatePoses(video.elt);
   setTimeout(getPoses, 0);
-  //console.log(poses);
+
+}
+
+function poseInit () {
+  if (poses && poses.length > 0) {
+    let count = 0
+    for (let kp of poses[0].keypoints) {
+      const { x, y, score } = kp;
+      if (score > 0.3) {
+        count += 1
+        fill(255);
+        stroke(0);
+        strokeWeight(4);
+        circle(x, y, 16);
+      }
+    }
+    if (poses[0].keypoints[13].score > 0.3 && poses[0].keypoints[12].score > 0.3){
+      console.log('Whole body visible!');
+      fill("black");
+      strokeWeight(2);
+      stroke(51);
+      translate(width, 0);
+      scale(-1, 1);
+      textSize(40);
+      let pushupString = `スクワットの回数 ${reps}`;
+      text(pushupString, 100, 90);
+      const payload = {
+        status:"ok",
+        kneePos: poses[0].keypoints[13].y
+      }
+      return payload
+    }  else {
+      fill("black");
+      strokeWeight(2);
+      stroke(51);
+      translate(width, 0);
+      scale(-1, 1);
+      textSize(40);
+      let pushupString = `体全体を写してください`;
+      text(pushupString, 100, 90);
+      const payload = {
+      status:"no",
+      kneePos: poses[0].keypoints[13].y
+      }
+      return payload
+    }
+  }
 }
 
 function draw() {
@@ -70,22 +119,29 @@ function draw() {
   image(video, 0, 0, video.width, video.height);
 
   // Draw keypoints and skeleton
-  drawKeypoints();
-  if (skeleton) {
+  let Flag = poseInit()
+  // console.log(Flag?.status)
+  if (Flag?.status=="ok") {
+    updateKneeAngle();
+    inUpPosition_skwat();
+    inDownPosition();
+    // if (skeleton) {
     drawSkeleton();
+    // }
   }
-
   // Write text
-  fill("black");
-  strokeWeight(2);
-  stroke(51);
+  // fill("black");
+  // strokeWeight(2);
+  // stroke(51);
   translate(width, 0);
   scale(-1, 1);
   textSize(40);
-
+  
   if (poses && poses.length > 0) {
-    let pushupString = `スクワットの回数: ${reps}`;
-    text(pushupString, 100, 90);
+    // let pushupString = `スクワットの回数: ${reps}`;
+    // text(pushupString, 100, 90);
+    left_knee = poses[0].keypoints[13]
+    // line(0,left_knee.y,width,left_knee.y)
   }
   else {
     text('Loading, please wait...', 100, 90);
@@ -93,42 +149,39 @@ function draw() {
   
 }
 
-function drawKeypoints() {
-  var count = 0;
-  if (poses && poses.length > 0) {
-    for (let kp of poses[0].keypoints) {
-      const { x, y, score } = kp;
-      if (score > 0.3) {
-        count = count + 1;
-        fill(255);
-        stroke(0);
-        strokeWeight(4);
-        circle(x, y, 16);
-      }
-      if (count == 17) {
-        //console.log('Whole body visible!');
-      }
-      else {
-        //console.log('Not fully visible!');
-      }
-      // updateArmAngle();
-      // updateBackAngle();
-      // inUpPosition();
-      // inDownPosition();
-
-
-      updateKneeAngle();
-      // updateBackAngle();
-      inUpPosition_skwat();
-      inDownPosition();
-    }
-  }
-}
+// function drawKeypoints() {
+//   var count = 0;
+//   if (poses && poses.length > 0) {
+//     for (let kp of poses[0].keypoints) {
+//       const { x, y, score } = kp;
+//       if (score > 0.3) {
+//         count = count + 1;
+//         fill(255);
+//         stroke(0);
+//         strokeWeight(4);
+//         circle(x, y, 16);
+//         // console.log(x)
+//         // if (kp.name==="left_knee"){
+//         //   line(0,y,width,y)
+//         // }
+//       }
+//       if (count == 17) {
+//         //console.log('Whole body visible!');
+//       }
+//       else {
+//         //console.log('Not fully visible!');
+//       }
+//       // updateArmAngle();
+//       // updateBackAngle();
+//       // inUpPosition();
+//       // inDownPosition();
+//     }
+//   }
+// }
 
 // Draws lines between the keypoints
 function drawSkeleton() {
   confidence_threshold = 0.5;
-
   if (poses && poses.length > 0) {
     for (const [key, value] of Object.entries(edges)) {
       const p = key.split(",");
@@ -144,11 +197,13 @@ function drawSkeleton() {
 
       if ((c1 > confidence_threshold) && (c2 > confidence_threshold)) {
         if ((highlightBack == true) && ((p[1] == 11) || ((p[0] == 6) && (p[1] == 12)) || (p[1] == 13) || (p[0] == 12))) {
+          scale(-1, 1);
           strokeWeight(3);
           stroke(255, 0, 0);
           line(x1, y1, x2, y2);
         }
         else {
+          scale(-1, 1);
           strokeWeight(2);
           stroke('rgb(0, 255, 0)');
           line(x1, y1, x2, y2);
