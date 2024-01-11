@@ -1,4 +1,6 @@
-[{
+{
+  "userData":[
+      {
   "name": "John Doe",
   "age": 25,
   "sex":"male",
@@ -10,4 +12,4 @@
   "sex":"female",
   "score":10
 }
-]
+]}
