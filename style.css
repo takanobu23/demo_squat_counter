@@ -2,6 +2,12 @@ html, body {
     margin: 0;
     padding: 0;
   }
+
+  body{
+    width: 100vw;
+    height: 100vh;
+  }
+
   canvas {
     display: block;
     margin:auto;
@@ -9,5 +15,136 @@ html, body {
     top:0;
     bottom:0;
     left:0;
+    width: 100%;
+    height: 100%;
     right:0;
+    /* background-color: rgba(0, 0, 0, 0.7); */
+  }
+
+  .bg_black
+  {
+    background-color: rgba(0, 0, 0, 0.7);;
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
+
+  .feedback-btn {
+    background-color: var(--dark-purple);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
+    transition: opacity 0.2s;
+  }
+  .feedback-btn:hover {
+    opacity: 0.9;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    background-color: var(--dark-purple);
+    color: #fff;
+    padding: 1rem 2rem 1.5rem;
+    width: 98%;
+    max-width: 600px;
+    border-radius: 20px;
+    opacity: 0;
+    background-color: #F3186F;
+    transition: 0.2s;
+  }
+  .modal.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .modal .close {
+    margin-inline-start: auto;
+    width: 20px;
+    height: 20px;
+    display: block;
+    cursor: pointer;
+  }
+  .modal .title {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 30px 0;
+  }
+  .feedback {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 40px 0;
+    position: relative;
+  }
+  .feedback::before, .feedback::after {
+    position: absolute;
+    bottom: -20px;
+    font-size: 0.7rem;
+  }
+  .feedback::before {
+    content: 'Not likely at all';
+    inset-inline-start: 0;
+  }
+  .feedback::after {
+    content: 'Extremely likely';
+    inset-inline-end: 0;
+  }
+  .modal .score > input {
+    display: none;
+  }
+  .modal .score label {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #1A2036;
+    color: #B1B9D8;
+    border: 1px solid #2E3650;
+    border-radius: 5px;
+    font-size: 1.125rem;
+    font-weight: bold;
+    box-shadow: 0 10px 25px -15px #111628;
+    cursor: pointer;
+  }
+  .modal .score > input:checked + label {
+    background-color: var(--light-purple);
+  }
+  .modal .score > input:not(:checked) + label:hover {
+    background-color: var(--light-purple);
+  }
+  .modal .options {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0 0;
+  }
+  .modal .options > button {
+    width: 120px;
+    padding: 10px 0;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+  .modal .cancel {
+    background-color: var(--dark-purple);
+    border: 1px solid var(--light-purple);
+    transition: background-color 0.2s;
+  }
+  .modal .cancel:hover {
+    background-color: var(--light-purple);
+    opacity: 0.9;
+  }
+  .modal .submit {
+    background-color: var(--light-purple);
+    border: 1px solid var(--dark-purple);
+    transition: opacity 0.2s;
+  }
+  .modal .submit:hover {
+    opacity: 0.9
   }

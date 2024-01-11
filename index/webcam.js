@@ -21,6 +21,7 @@ let knee_angle
 
 let knee_hip_pos
 
+let ratio = 1.25
 
 async function init() {
   detectorConfig = { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER };
@@ -49,9 +50,9 @@ async function videoReady() {
 async function setup() {
   var msg = new SpeechSynthesisUtterance('Loading, please wait...');
   window.speechSynthesis.speak(msg);
-  createCanvas(640, 480);
+  createCanvas(800, 600);
   video = createCapture(VIDEO, videoReady);
-  //video.size(960, 720);
+  video.size(800,600);
   video.hide()
 
   await init();
@@ -80,11 +81,16 @@ function draw() {
   strokeWeight(2);
   stroke(51);
   translate(width, 0);
+  console.log(width)
   scale(-1, 1);
   textSize(40);
 
   if (poses && poses.length > 0) {
-    let pushupString = `スクワットの回数: ${reps}`;
+    strokeWeight(2);
+    stroke(51);
+    textSize(40);
+    translate(width/1.3, 0);
+    let pushupString = `${reps}回`;
     text(pushupString, 100, 90);
   }
   else {
@@ -98,12 +104,13 @@ function drawKeypoints() {
   if (poses && poses.length > 0) {
     for (let kp of poses[0].keypoints) {
       const { x, y, score } = kp;
+      console.log(x,y)
       if (score > 0.3) {
         count = count + 1;
         fill(255);
         stroke(0);
         strokeWeight(4);
-        circle(x, y, 16);
+        circle(x*ratio, y*ratio, 16);
       }
       if (count == 17) {
         //console.log('Whole body visible!');
@@ -146,12 +153,12 @@ function drawSkeleton() {
         if ((highlightBack == true) && ((p[1] == 11) || ((p[0] == 6) && (p[1] == 12)) || (p[1] == 13) || (p[0] == 12))) {
           strokeWeight(3);
           stroke(255, 0, 0);
-          line(x1, y1, x2, y2);
+          line(x1*ratio, y1*ratio, x2*ratio, y2*ratio);
         }
         else {
           strokeWeight(2);
           stroke('rgb(0, 255, 0)');
-          line(x1, y1, x2, y2);
+          line(x1*ratio, y1*ratio, x2*ratio, y2*ratio);
         }
       }
     }
@@ -295,42 +302,6 @@ else {
   //console.log('Cannot see elbow');
 }
 }
-
-// スクワット姿勢検知
-// function updateBackAngle() {
-
-//   var leftShoulder = poses[0].keypoints[5];
-//   var leftHip = poses[0].keypoints[11];
-//   var leftKnee = poses[0].keypoints[13];
-
-//   angle = (
-//     Math.atan2(
-//       leftKnee.y - leftHip.y,
-//       leftKnee.x - leftHip.x
-//     ) - Math.atan2(
-//       leftShoulder.y - leftHip.y,
-//       leftShoulder.x - leftHip.x
-//     )
-//   ) * (180 / Math.PI);
-//   angle = angle % 180;
-//   if (leftKnee.score > 0.3 && leftHip.score > 0.3 && leftShoulder.score > 0.3) {
-
-//     backAngle = angle;
-//   }
-
-//   if ((backAngle < 20) || (backAngle > 160)) {
-//     highlightBack = false;
-//   }
-//   else {
-//     highlightBack = true;
-//     if (backWarningGiven != true) {
-//       var msg = new SpeechSynthesisUtterance('Keep your back straight');
-//       window.speechSynthesis.speak(msg);
-//       backWarningGiven = true;
-//     }
-//   }
-
-// }
 
 // スクワットアップポジション
 function inUpPosition_skwat() {
