@@ -1,12 +1,9 @@
-{
+[
+  {
   "name": "John Doe",
   "age": 25,
-  "city": "Example City",
-  "isStudent": false,
-  "grades": [90, 85, 92],
-  "address": {
-    "street": "123 Main Street",
-    "zipCode": "12345",
-    "country": "Example Country"
-  }
+  "sex":"male",
+  "score":100
 }
+
+]
