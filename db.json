@@ -1,9 +1,13 @@
-[
-  {
+[{
   "name": "John Doe",
   "age": 25,
   "sex":"male",
   "score":100
+},
+{
+  "name": "John Doe",
+  "age": 20,
+  "sex":"female",
+  "score":10
 }
-
 ]
