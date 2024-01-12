@@ -10,5 +10,11 @@
     "age": 25,
     "sex":"male",
     "score":10
+  },
+  "user3":{
+    "name": "田中 正義",
+    "age": 25,
+    "sex":"male",
+    "score":200
   }
 }

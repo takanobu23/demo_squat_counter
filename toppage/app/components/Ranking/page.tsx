@@ -4,77 +4,62 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import useSWR from 'swr'
 
-interface Person {
+interface UserData {
   name: string;
   age: number;
   sex: string;
   score: number;
 }
 
-const Ranking = () => {
-  interface FetchRequest {
-    url: string
-    options: object
-  }
+const UserScores: React.FC<{ data: Record<string, UserData> }> = ({ data }) => {
+  const dataArray = Object.entries(data).map(([userId, userData]) => ({
+    userId,
+    ...userData,
+  }));
 
-  const initialData: Person[] = [
-    {
-      "name": "John Doe",
-      "age": 25,
-      "sex": "male",
-      "score": 100
-    },
-    {
-      "name": "Jane Doe",
-      "age": 20,
-      "sex": "female",
-      "score": 10
-    }
-  ];
+  const sortedData = dataArray.slice().sort((a, b) => b.score - a.score);
+  
+  return (
+    <div className='w-10/12 mx-auto'>
+      <ul className='text-start'>
+        {sortedData.map((user, index) => (
+          <li key={user.userId}>
+            {index == 0 ? <div className='flex align-middle w-full'><Image alt='ランク1' width={50} height={50} src={"rank1.svg"} className='w-12 h-12'/><p className='text-4xl text-right'>{user.name}  スコア{user.score}</p></div> : index == 1 ? <div className='flex align-middle w-full'><Image alt='ランク2' width={50} height={50} src={"rank2.svg"} className='w-12 h-12'/><p className='text-4xl text-right '>{user.name}  スコア{user.score}</p></div> : index == 2 ? <div className='flex align-middle w-full'><Image alt='ランク3' width={50} height={50} src={"rank3.svg"} className='w-12 h-12'/><p className='text-4xl text-center '>{user.name}  スコア{user.score}</p></div>: <div></div>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
-  const [data, setData] = useState<Person[]>(initialData);
-
-  async function fetchAsync (request: FetchRequest): Promise<string> {
-    return await fetch(request.url, request.options)
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`)
-        }
-  
-        return await response.blob()
-      })
-      .then(async (response) => {
-        return await response.text()
-      })
-  }
-  
-  async function main (): Promise<void> {
-    const result = await fetchAsync({
-      url: 'https://my-json-server.typicode.com/takanobu23/demo_squat_counter/userData',
-      options: {}
-    })
-    console.log(result)
-    setData(result)
-  }
-  
-  main().catch((error) => {
-    console.error(error)
-  })
-
-  
+const Rank: React.FC = () => {
+  const [userData, setUserData] = useState<Record<string, UserData>>({});
 
   useEffect(() => {
-    // const sortedData = data.slice().sort((a, b) => b.score - a.score);
-    // ソートされたデータから名前を取得
-    // const sortedNames = sortedData.map(item => item.name);
-    data.map(d => console.log(d))
-    console.log();
-  },[data])
+    // データを非同期でフェッチ
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://my-json-server.typicode.com/takanobu23/demo_squat_counter/db'); // APIのエンドポイントに置き換える
+        const data = await response.json();
+        setUserData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // 空の依存配列を渡すことで、初回のみフェッチが行われる
+
+
+  return <UserScores data={userData} />;
+};
+
+const Ranking = () => {
 
   return (
-    <div className='ml-drawer'>
+    <div className='ml-drawer mt-10 text-center '>
       <div className='main'>
-      <div className='flex gap-2.5'>
+      <div className='flex gap-2.5 mb-10'>
       <Image 
       alt='リーグ'
       width={100}
@@ -106,8 +91,9 @@ const Ranking = () => {
       src={"./leag_undefind.svg"}
       />
       </div>
-      <h3 className='font-medium text-6xl'>BIGリーグ</h3>
-      <p className='font-medium text-3xl'>現在のランキング</p>
+      <h3 className='font-medium text-6xl mb-6'>BIGリーグ</h3>
+      <p className='font-medium text-3xl mb-6'>現在のランキング</p>
+      <Rank />
     </div>
     <div></div>
   </div>
