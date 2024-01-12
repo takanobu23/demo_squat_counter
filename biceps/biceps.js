@@ -8,19 +8,30 @@ let elbowAngle = 200;
 let backAngle = 0;
 let reps = 0;
 let upPosition = false;
-let downPosition = false;
+let downPosition = true;
 let highlightBack = false;
 let backWarningGiven = false;
 let ratio = 1.25
 
+let weight = 1
+let penaltyPoint = 0.7
+
+let armAngle
+
+let FormError = false
+
 let score = 0
+
+let highlightArm = false
+let highlightArmGiven = false;
+let armPenalty = false
 
 
 // モーダル用DOM
 const feedbackBtn = document.querySelector('.feedback-btn');
 const modal = document.querySelector('.modal');
 const modalCover = document.querySelector('.bg_black');
-const ScoreDom =  document.querySelector('.score');
+const ScoreDom =  document.querySelector('.ArmcallScore');
 
 async function init() {
   detectorConfig = { modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER };
@@ -115,6 +126,7 @@ function drawKeypoints() {
         //console.log('Not fully visible!');
       }
       updateArmAngle();
+      hilightArmAngle();
       inUpPositionElbow()
       inDownPositionElbow()
     }
@@ -155,17 +167,10 @@ function drawSkeleton() {
 }
 
 function updateArmAngle() {
-  /*
-  rightWrist = poses[0].keypoints[10];
-  rightShoulder = poses[0].keypoints[6];
-  rightElbow = poses[0].keypoints[8];
-  */
   leftWrist = poses[0].keypoints[9];
   leftShoulder = poses[0].keypoints[5];
   leftElbow = poses[0].keypoints[7];
-
-
-
+  
   angle = (
     Math.atan2(
       leftWrist.y - leftElbow.y,
@@ -181,54 +186,46 @@ function updateArmAngle() {
   }
 
   if (leftWrist.score > 0.3 && leftElbow.score > 0.3 && leftShoulder.score > 0.3) {
-    //console.log(angle);
     elbowAngle = angle;
   }
-  else {
-    //console.log('Cannot see elbow');
-  }
-
 }
 
-function updateBackAngle() {
-
-  var leftShoulder = poses[0].keypoints[5];
-  var leftHip = poses[0].keypoints[11];
-  var leftKnee = poses[0].keypoints[13];
+function hilightArmAngle() {
+  let leftWrist = poses[0].keypoints[9];
+  let leftShoulder = poses[0].keypoints[5];
+  // let lefthip = poses[0].keypoints[11];
 
   angle = (
     Math.atan2(
-      leftKnee.y - leftHip.y,
-      leftKnee.x - leftHip.x
+      leftWrist.y - leftShoulder.y,
+      leftWrist.x - leftShoulder.x
     ) - Math.atan2(
-      leftShoulder.y - leftHip.y,
-      leftShoulder.x - leftHip.x
+      height - leftShoulder.y,
+      leftShoulder.x - leftShoulder.x
     )
   ) * (180 / Math.PI);
-  angle = angle % 180;
-  if (leftKnee.score > 0.3 && leftHip.score > 0.3 && leftShoulder.score > 0.3) {
-
-    backAngle = angle;
-  }
-
-  if ((backAngle < 20) || (backAngle > 160)) {
-    highlightBack = false;
-  }
-  else {
-    highlightBack = true;
-    if (backWarningGiven != true) {
-      var msg = new SpeechSynthesisUtterance('Keep your back straight');
-      window.speechSynthesis.speak(msg);
-      backWarningGiven = true;
+  angle = abs(angle)
+  // console.log(`規制時の方の角度　：${angle}`)
+  if (leftWrist.score > 0.3 && leftShoulder.score > 0.3) {
+    armAngle = angle;
+    if ((armAngle < 80) && (armAngle > 0)) {
+      highlightArm = false;
+    }
+    else {
+      // console.log(`腕上がりすぎな時のハイライトアーム　：　　${armAngle}`)
+      highlightArm = true;
+      if (highlightArm){
+        highlightArmGiven = true
+      }
     }
   }
-
 }
 
 function inUpPositionElbow() {
   if ((abs(elbowAngle) > 35) && (abs(elbowAngle) < 60)) {
     if (upPosition == false) {
       if (10 == reps){
+        // console.log(`肘の角度 上がってる時: ${elbowAngle}`)
         var msg = new SpeechSynthesisUtterance('ステージクリア');
         window.speechSynthesis.speak(msg);
         modal.style.display = 'block';
@@ -239,6 +236,9 @@ function inUpPositionElbow() {
         var msg = new SpeechSynthesisUtterance('Down');
         window.speechSynthesis.speak(msg);
         console.log(reps)
+        if (highlightArmGiven) {
+          FormError = true
+        }
       } else {
         
       }
@@ -248,9 +248,10 @@ function inUpPositionElbow() {
   }
 }
 
-// スクワットアップポジション
+// DownElbowPos
 function inDownPositionElbow() {
   if ((abs(elbowAngle) > 200) && (abs(elbowAngle) < 240)) {
+    // console.log(`肘の角度 下がってる時: ${elbowAngle}`)
     // console.log('In up position')
     if (downPosition == false) {
       if (10 == reps){
@@ -258,7 +259,20 @@ function inDownPositionElbow() {
         var msg = new SpeechSynthesisUtterance(str(reps+1));
         window.speechSynthesis.speak(msg);
         reps = reps + 1;
-        score += 10
+        if (FormError) {
+          score = score + 10 * penaltyPoint * weight
+          console.log(`エラー時のスコア : ${score}`)
+          var msg = new SpeechSynthesisUtterance("good");
+        window.speechSynthesis.speak(msg);
+        } else {
+          score = score +10 * weight
+          console.log(`そうじゃない時 : ${score}`)
+          var msg = new SpeechSynthesisUtterance("great");
+          window.speechSynthesis.speak(msg);
+        }
+        FormError = false
+        highlightArm = false
+        highlightArmGiven=false
       } else {
         reps = reps + 1;
       }
@@ -267,3 +281,37 @@ function inDownPositionElbow() {
     downPosition = true;
   }
 }
+
+// 送信用関数
+const postData = async (e) => {
+  e.preventDefault();
+  const UserName = document.getElementById("first_name").value;
+  const company = document.getElementById("company").value;
+  const UserSex = document.getElementById("phone").value;
+  const UserAge = document.getElementById("age").value;
+  const message = document.getElementById("message").value;
+  console.log(UserName,company,UserSex,UserAge,score)
+  let param = {
+    method: "POST",
+    body: JSON.stringify({
+      name: UserName,
+      age: UserAge,
+      sex: UserSex,
+      score: score,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+};
+  try {
+    const response = await fetch('http://localhost:3000/post', param);
+    const newData = await response.json();
+    console.log(newData)
+    // setUserData(newData);
+  } catch (error) {
+    console.error('Error posting data:', error);
+  }
+};
+
+const Form_submit = document.querySelector('.Form_submit')
+Form_submit.addEventListener("click",postData)

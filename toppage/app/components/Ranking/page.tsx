@@ -24,7 +24,7 @@ const UserScores: React.FC<{ data: Record<string, UserData> }> = ({ data }) => {
       <ul className='text-start'>
         {sortedData.map((user, index) => (
           <li key={user.userId}>
-            {index == 0 ? <div className='flex align-middle w-full'><Image alt='ランク1' width={50} height={50} src={"rank1.svg"} className='w-12 h-12'/><p className='text-4xl text-right'>{user.name}  スコア{user.score}</p></div> : index == 1 ? <div className='flex align-middle w-full'><Image alt='ランク2' width={50} height={50} src={"rank2.svg"} className='w-12 h-12'/><p className='text-4xl text-right '>{user.name}  スコア{user.score}</p></div> : index == 2 ? <div className='flex align-middle w-full'><Image alt='ランク3' width={50} height={50} src={"rank3.svg"} className='w-12 h-12'/><p className='text-4xl text-center '>{user.name}  スコア{user.score}</p></div>: <div></div>}
+            {index == 0 ? <div className='flex align-middle w-full'><Image alt='ランク1' width={50} height={50} src={"rank1.svg"} className='w-12 h-12'/><p className='text-4xl/[50px] text-right'>{user.name}  スコア{user.score}</p></div> : index == 1 ? <div className='flex align-middle w-full'><Image alt='ランク2' width={50} height={50} src={"rank2.svg"} className='w-12 h-12'/><p className='text-4xl/[50px] text-right '>{user.name}  スコア{user.score}</p></div> : index == 2 ? <div className='flex align-middle w-full'><Image alt='ランク3' width={50} height={50} src={"rank3.svg"} className='w-12 h-12'/><p className='text-4xl/[50px] text-center '>{user.name}  スコア{user.score}</p></div>: <div className='flex align-middle w-full'>{index}<p className='text-4xl/[50px] text-center '>{user.name}  スコア{user.score}</p></div>}
           </li>
         ))}
       </ul>
@@ -39,7 +39,7 @@ const Rank: React.FC = () => {
     // データを非同期でフェッチ
     const fetchData = async () => {
       try {
-        const response = await fetch('https://my-json-server.typicode.com/takanobu23/demo_squat_counter/db'); // APIのエンドポイントに置き換える
+        const response = await fetch('http://localhost:3000/post'); // APIのエンドポイントに置き換える
         const data = await response.json();
         setUserData(data);
       } catch (error) {

@@ -10,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
 <!-- Alternatively you can use the WASM backend: <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm/dist/tf-backend-wasm.js"></script> -->
 
+<script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../style.css">
@@ -23,13 +24,89 @@
       ステージクリア
     </h3>
     
-    <form action="" class="feedback">
-      <h3 class="score"></h3>
-    </form>
-    
+ <form action="" class="feedback">
+      <h3 class="ArmcallScore"></h3>
+  <div class="grid gap-6 md:grid-cols-2">
+      <div>
+          <label for="first_name" class="block mb-2 text-sm font-medium ">名前</label>
+          <input type="text" value="" id="first_name" class="bg-white-100 border text-black border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="田中" required>
+      </div>
+      <div>
+          <label for="company" class="block mb-2 text-sm font-medium   dark:text-white">会社名</label>
+          <input type="text" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 text-black  dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="会社名">
+      </div>  
+      <div>
+          <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">性別</label>
+          <input type="text" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="性別" required>
+      </div>
+      <div>
+          <label for="age" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">年齢</label>
+          <input type="number" id="age" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="30" >
+      </div>
+      </div>
+      
+<label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">感想</label>
+<textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="感想をお聞かせください"></textarea>
+<div class="feedbackScore">
+  <h3 class="scoretext">このアプリの評価を教えてください</h3>
+  <div class="scoreBoard">
+  <div class="score">
+    <input id="score1" type="radio" value="1" name="score">
+    <label for="score1">1</label>
+  </div>
+  
+  <div class="score">
+    <input id="score2" type="radio" value="2" name="score">
+    <label for="score2">2</label>
+  </div>
+  
+  <div class="score">
+    <input id="score3" type="radio" value="3" name="score">
+    <label for="score3">3</label>
+  </div>
+  
+  <div class="score">
+    <input id="score4" type="radio" value="4" name="score">
+    <label for="score4">4</label>
+  </div>
+  
+  <div class="score">
+    <input id="score5" type="radio" value="5" name="score">
+    <label for="score5">5</label>
+  </div>
+  
+  <div class="score">
+    <input id="score6" type="radio" value="6" name="score">
+    <label for="score6">6</label>
+  </div>
+  
+  <div class="score">
+    <input id="score7" type="radio" value="7" name="score">
+    <label for="score7">7</label>
+  </div>
+  
+  <div class="score">
+    <input id="score8" type="radio" value="8" name="score">
+    <label for="score8">8</label>
+  </div>
+  
+  <div class="score">
+    <input id="score9" type="radio" value="9" name="score">
+    <label for="score9">9</label>
+  </div>
+  
+  <div class="score">
+    <input id="score10" type="radio" value="10" name="score">
+    <label for="score10">10</label>
+  </div>
+</div>
+</div>
+
+      <button class="Form_submit" type="submit">Submit</button>
+
+</form>
     <div class="options">
-      <button class="cancel" type="button">Cancel</button>
-      <button class="submit" type="submit">Submit</button>
+      <!-- <button class="submit" type="submit">Submit</button> -->
     </div>
   </div>
 <script src="biceps.js"></script>

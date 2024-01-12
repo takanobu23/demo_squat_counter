@@ -192,7 +192,6 @@ function updateArmAngle() {
   }
 
   if (leftWrist.score > 0.3 && leftElbow.score > 0.3 && leftShoulder.score > 0.3) {
-    //console.log(angle);
     elbowAngle = angle;
   }
   else {

@@ -26,7 +26,8 @@ html, body {
     background-color: rgba(0, 0, 0, 0.7);;
     width: 100%;
     height: 100%;
-    display: none;
+    display: block;
+    /* display: none; */
   }
 
   .feedback-btn {
@@ -42,7 +43,8 @@ html, body {
     opacity: 0.9;
   }
   .modal {
-    display: none;
+    display: block;
+    /* display: none; */
     position: fixed;
     z-index: 10;
     top: 50%;
@@ -54,7 +56,8 @@ html, body {
     width: 98%;
     max-width: 600px;
     border-radius: 20px;
-    opacity: 0;
+    opacity: 1;
+    /* opacity: 0; */
     background-color: #F3186F;
     transition: 0.2s;
   }
@@ -77,8 +80,6 @@ html, body {
     margin: 30px 0;
   }
   .feedback {
-    display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     margin: 40px 0;
     position: relative;
@@ -88,29 +89,23 @@ html, body {
     bottom: -20px;
     font-size: 0.7rem;
   }
-  .feedback::before {
-    content: 'Not likely at all';
-    inset-inline-start: 0;
-  }
-  .feedback::after {
-    content: 'Extremely likely';
-    inset-inline-end: 0;
-  }
+
   .modal .score > input {
     display: none;
+    color: #393939;
   }
   .modal .score label {
     display: grid;
     place-items: center;
     width: 40px;
     height: 40px;
-    background-color: #1A2036;
-    color: #B1B9D8;
-    border: 1px solid #2E3650;
+    background-color: #ffffff;
+    color: #393939;
+    border: 1px solid #ffffff;
     border-radius: 5px;
     font-size: 1.125rem;
     font-weight: bold;
-    box-shadow: 0 10px 25px -15px #111628;
+    box-shadow: 0 10px 25px -15px #3d1b1b;
     cursor: pointer;
   }
   .modal .score > input:checked + label {
@@ -131,15 +126,6 @@ html, body {
     font-weight: 500;
     font-size: 0.875rem;
   }
-  .modal .cancel {
-    background-color: var(--dark-purple);
-    border: 1px solid var(--light-purple);
-    transition: background-color 0.2s;
-  }
-  .modal .cancel:hover {
-    background-color: var(--light-purple);
-    opacity: 0.9;
-  }
   .modal .submit {
     background-color: var(--light-purple);
     border: 1px solid var(--dark-purple);
@@ -147,4 +133,55 @@ html, body {
   }
   .modal .submit:hover {
     opacity: 0.9
+  }
+  .Form_submit
+  {
+    width: 100%;
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .scoretext
+  {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  .scoreBoard
+  {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .scoreBoard::before, .scoreBoard::after {
+    position: absolute;
+    bottom:40px;
+    font-size: 0.7rem;
+  }
+
+  .scoreBoard::before {
+    content: 'これからに期待';
+    inset-inline-start: 0;
+  }
+  .scoreBoard::after {
+    content: 'うまくいけば悪くなさそう';
+    inset-inline-end: 0;
+  }
+
+  .ArmcallScore
+  {
+    text-align: center;
+    font-size: 64px;
+    position: relative;
+  }
+
+  .ArmcallScore::after
+  {
+    content:"point";
+    position: absolute;
+    font-size: 12px;
+    bottom: 22px;
   }
