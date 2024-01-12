@@ -290,7 +290,7 @@ const postData = async (e) => {
   const UserSex = document.getElementById("phone").value;
   const UserAge = document.getElementById("age").value;
   const message = document.getElementById("message").value;
-  console.log(UserName,company,UserSex,UserAge,score)
+  console.log(UserName,company,UserSex,UserAge,score,message)
   let param = {
     method: "POST",
     body: JSON.stringify({
