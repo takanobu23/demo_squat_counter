@@ -23,12 +23,12 @@
     "age": 25,
     "sex":"male",
     "score":200
-  }
   },
-  "user4":{
+  "user5":{
     "name": "吉谷浩志",
     "age": 21,
     "sex":"male",
     "score":91
   }
+}
 }
