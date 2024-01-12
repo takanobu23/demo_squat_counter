@@ -29,6 +29,11 @@
     "age": 21,
     "sex":"male",
     "score":91
+  },"user6":{
+    "name": "乃美浩太",
+    "age": 21,
+    "sex":"male",
+    "score":101
   }
 }
 }

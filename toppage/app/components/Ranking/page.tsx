@@ -24,7 +24,12 @@ const UserScores: React.FC<{ data: Record<string, UserData> }> = ({ data }) => {
       <ul className='text-start'>
         {sortedData.map((user, index) => (
           <li key={user.userId}>
-            {index == 0 ? <div className='flex align-middle w-full mb-4'><Image alt='ランク1' width={50} height={50} src={"rank1.svg"} className='w-12 h-12'/><p className='text-4xl/[50px] text-right'>{user.name}  スコア{user.score}</p></div> : index == 1 ? <div className='flex align-middle w-full mb-4'><Image alt='ランク2' width={50} height={50} src={"rank2.svg"} className='w-12 h-12'/><p className='text-4xl/[50px] text-right '>{user.name}  スコア{user.score}</p></div> : index == 2 ? <div className='flex align-middle w-full mb-4'><Image alt='ランク3' width={50} height={50} src={"rank3.svg"} className='w-12 h-12'/><p className='text-4xl/[50px] text-center '>{user.name}  スコア{user.score}</p></div>: <div className='flex align-middle w-full mb-4'><p className='w-12 text-5xl text-center font-light  h-40'>{index+1}</p><p className='text-4xl/[50px] text-center '>{user.name}  スコア{user.score}</p></div>}
+            {index == 0 ? 
+            <div className='flex align-middle w-full mb-4'><Image alt='ランク1' width={50} height={50} src={"rank1.svg"} className='w-12 h-12'/><p className='text-4xl/[50px] text-right'>{user.name}  スコア{user.score}</p></div> 
+            : index == 1 ? <div className='flex align-middle w-full mb-4'><Image alt='ランク2' width={50} height={50} src={"rank2.svg"} className='w-12 h-12'/><p className='text-4xl/[50px] text-right '>{user.name}  スコア{user.score}</p></div> 
+            : index == 2 ? <div className='flex align-middle w-full mb-4'><Image alt='ランク3' width={50} height={50} src={"rank3.svg"} className='w-12 h-12'/><p className='text-4xl/[50px] text-center '>{user.name}  スコア{user.score}</p></div>
+            : <div className='flex align-middle w-full mb-4'><p className='w-12 text-5xl text-center font-light  h-40'>{index+1}</p><p className='text-4xl/[50px] text-center '>{user.name}  スコア{user.score}</p></div>
+            }
           </li>
         ))}
       </ul>
@@ -42,6 +47,7 @@ const Rank: React.FC = () => {
         const response = await fetch('http://localhost:3000/post'); // APIのエンドポイントに置き換える
         const data = await response.json();
         setUserData(data);
+        console.log(data)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
