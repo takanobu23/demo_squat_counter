@@ -8,7 +8,13 @@ export default function Home() {
     <main className='flex justify-around'>
       <Drawer />
       <Ranking />
+      <div className='w-3/6 mt-10'>
       <Adsence />
+      <Adsence />
+      <Adsence />
+      <Adsence />
+      </div>
+
     </main>
   )
 }

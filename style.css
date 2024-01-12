@@ -26,8 +26,8 @@ html, body {
     background-color: rgba(0, 0, 0, 0.7);;
     width: 100%;
     height: 100%;
-    display: block;
-    /* display: none; */
+    /* display: block; */
+    display: none;
   }
 
   .feedback-btn {
@@ -43,8 +43,8 @@ html, body {
     opacity: 0.9;
   }
   .modal {
-    display: block;
-    /* display: none; */
+    /* display: block; */
+    display: none;
     position: fixed;
     z-index: 10;
     top: 50%;
