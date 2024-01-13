@@ -1,0 +1,39 @@
+{
+  "post":{
+  "user1":{
+    "name": "John Doe",
+    "age": 25,
+    "sex":"male",
+    "score":100
+  },
+  "user2":{
+    "name": "田中",
+    "age": 25,
+    "sex":"male",
+    "score":10
+  },
+  "user3":{
+    "name": "田中 正義",
+    "age": 25,
+    "sex":"male",
+    "score":200
+  },
+  "user4":{
+    "name": "田中 正義",
+    "age": 25,
+    "sex":"male",
+    "score":200
+  },
+  "user5":{
+    "name": "吉谷浩志",
+    "age": 21,
+    "sex":"male",
+    "score":91
+  },"user6":{
+    "name": "乃美浩太",
+    "age": 21,
+    "sex":"male",
+    "score":101
+  }
+}
+}
