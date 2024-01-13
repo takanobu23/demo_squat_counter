@@ -13,8 +13,22 @@ let highlightBack = false;
 let backWarningGiven = false;
 let ratio = 1.25
 
-let weight = 1
-let penaltyPoint = 0.7
+// 1キロ
+// let weight = 1
+// let penaltyPoint = 0.7
+
+// 2.5キロ
+// let weight = 1.5
+// let penaltyPoint = 0.5
+
+// 3キロ
+let weight = 1.75
+let penaltyPoint = 0.3
+
+// 5.5キロ
+// let weight = 1.9
+// let penaltyPoint = 0.1
+
 
 let armAngle
 
@@ -256,8 +270,8 @@ function inDownPositionElbow() {
     if (downPosition == false) {
       if (10 == reps){
       } else if (reps<10) {
-        var msg = new SpeechSynthesisUtterance(str(reps+1));
-        window.speechSynthesis.speak(msg);
+        // var msg = new SpeechSynthesisUtterance(str(reps+1));
+        // window.speechSynthesis.speak(msg);
         reps = reps + 1;
         if (FormError) {
           score = score + 10 * penaltyPoint * weight
