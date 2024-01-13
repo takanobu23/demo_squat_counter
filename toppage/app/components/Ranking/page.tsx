@@ -44,7 +44,7 @@ const Rank: React.FC = () => {
     // データを非同期でフェッチ
     const fetchData = async () => {
       try {
-        const response = await fetch(''); // APIのエンドポイントに置き換える
+        const response = await fetch('https://my-json-server.typicode.com/takanobu23/demo_squat_counter/post'); // APIのエンドポイントに置き換える
         const data = await response.json();
         setUserData(data);
         console.log(data)
