@@ -1,10 +1,10 @@
 {
   "post":{
   "user1":{
-    "name": "John Doe",
-    "age": 25,
-    "sex":"male",
-    "score":100
+    "name": "まがたま",
+    "age": 22,
+    "sex":"男性",
+    "score":182.5
   }
 }
 }
