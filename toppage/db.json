@@ -21,6 +21,11 @@
     "age": 19,
     "sex":"男性",
     "score":155.8
+  },"user5":{
+    "name": "waka",
+    "age": 18,
+    "sex":"男性",
+    "score":190
   }
 }
 }
