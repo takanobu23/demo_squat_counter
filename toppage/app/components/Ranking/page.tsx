@@ -44,7 +44,7 @@ const Rank: React.FC = () => {
     // データを非同期でフェッチ
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/post'); // APIのエンドポイントに置き換える
+        const response = await fetch(''); // APIのエンドポイントに置き換える
         const data = await response.json();
         setUserData(data);
         console.log(data)
@@ -54,9 +54,7 @@ const Rank: React.FC = () => {
     };
 
     fetchData();
-  }, []); // 空の依存配列を渡すことで、初回のみフェッチが行われる
-
-
+  }, []);  // 空の依存配列を渡すことで、初回のみフェッチが行われる
   return <UserScores data={userData} />;
 };
 

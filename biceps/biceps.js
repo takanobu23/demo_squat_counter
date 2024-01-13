@@ -22,12 +22,12 @@ let ratio = 1.25
 // let penaltyPoint = 0.5
 
 // 3キロ
-let weight = 1.75
-let penaltyPoint = 0.3
+// let weight = 1.75
+// let penaltyPoint = 0.3
 
 // 5.5キロ
-// let weight = 1.9
-// let penaltyPoint = 0.1
+let weight = 1.9
+let penaltyPoint = 0.1
 
 
 let armAngle
